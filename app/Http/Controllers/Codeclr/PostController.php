@@ -1,23 +1,39 @@
 <?php
 
-namespace App\Http\Controllers\Codeclr;
+namespace App\Http\Controllers\codeclr;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\User;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 
 class PostController extends Controller
 {
+    //class varibles 
+    public $app="codeclr";
+    public $module="post";
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Post $post)
     {
         $alert=request()->session()->get('alert');
-        $data=Post::all();
-        return view('projectclr.index')->with('alert',$alert)->with('data',$data);
+        $user=Auth::user();
+        $allusers=User::all()->KeyBy('id');
+        if($user->role=='admin')
+        {
+            $data=$post->paginate(20);
+        }
+        else
+        $data=post->where('user_id',$user_id)->paginate(5);
+         
+        return view('projectclr.post.index')->with('alert',$alert)->with('data',$data)->with('allusers',$allusers);
     }
 
     /**
@@ -25,9 +41,12 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Post $post)
     { 
-       return view('projectclr.create');
+        $this->stub='Create';
+       return view('projectclr.post.create')->with('app',$this)->with('post',$post);
+
+
     }
 
     /**
@@ -39,6 +58,11 @@ class PostController extends Controller
     public function store(Request $request)
     {
        $data=$request;
+       if(isset($request->all()['image'])){
+        $file =$request->all()['image'];
+        $filename='$data->slug' . '.' .$file->getClientOriginalExtension();
+        $path=Storage::disk('local')->putFileAs('images/', $request->file('image'),$filename,'public');
+       }
        $post=new Post();
        $post->title=$data->title;
        $post->slug=$data->slug;
@@ -58,9 +82,11 @@ class PostController extends Controller
      */
     public function show( string $slug)
     {
-        
+        Storage::disk('local')->put('example.txt', 'manohar'); 
         $post=Post::where('slug',$slug)->first();
-        return view ('projectclr.show')->with('post',$post);
+        $this->authorize('view',$post);
+        return view ('projectclr.post.show')->with('post',$post);
+       ;
     }
 
     /**
@@ -72,8 +98,9 @@ class PostController extends Controller
     public function edit(string $slug)
     {
         $post=Post::where('slug',$slug)->first();
+        $this->stub='edit';
         $this->authorize('update',$post);
-        return view ('projectclr.update')->with('post',$post); 
+        return view ('projectclr.post.update')->with('post',$post)->with('app',$this); 
     }
 
     /**

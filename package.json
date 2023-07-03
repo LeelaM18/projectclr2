@@ -16,6 +16,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "heroicons": "^2.0.18"
+        "heroicons": "^2.0.18",
+        "monaco-editor": "^0.39.0"
     }
 }

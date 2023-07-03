@@ -21,7 +21,23 @@ class PostPolicy
     }
     public function update(User $user,Post $post):bool
     {
-        return $user->id == $post->user_id;
-
+        if($user->role=='admin'||$post->user_id == $user->id)
+        return true;
+        else
+        return false;
+    }
+    public function view(User $user,Post $post):bool
+    {
+        if($user->role=='admin'||$post->user_id == $user->id)
+        return true;
+        else
+        return false;
+    }
+    public function delete(User $user,Post $post):bool
+    {
+        if($user->role=='admin'||$post->user_id == $user->id)
+        return true;
+        else
+        return false;
     }
 }

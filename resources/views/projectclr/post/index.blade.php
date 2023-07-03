@@ -15,10 +15,10 @@
     </thead>
 
     <tbody>
-        @foreach($data as $record)
-        <tr class="border-2">
-        <th class="border-2 text-left p-2 ">{{$record->id}}</th>
-        <th class="border-2 text-left p-2">{{Auth::user()->where('id',$record->user_id)->first()->name}}</th>
+        @foreach($data as $index=>$record)
+        <tr class="border-2 pt-3">
+        <th class="border-2 text-left p-2 ">{{$index+1}}</th>
+        <th class="border-2 text-left p-2">{{$allusers[$record->user_id]->name}}</th>
         <th class="border-2 text-left p-2"> 
             <a href="{{route('post.show', $record->slug)}}" class="text-blue-400">{{$record->title}}</th></a>
         <th class="border-2 text-left p-2">{{$record->slug}}</th>
@@ -29,5 +29,8 @@
         @endforeach
     </tbody>
 </table>
+<br>
+<br>
+{{$data -> links() }}
 </div>
 @endsection

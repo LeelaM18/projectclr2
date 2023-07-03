@@ -36,7 +36,7 @@
      @csrf
 </div>
 <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-<div class="pt-4 flex"> <button type="submit" class="bg-blue-300 p-2 hover:bg-green-700 hover:text-white rounded-lg">Create post</button>
+<div class="pt-4 flex"> <button type="submit" class="bg-blue-300 p-2 hover:bg-green-700 hover:text-white rounded-lg">Edit post</button>
 <a  href="{{route('post.index')}}" type="submit" class= " ml-3 bg-blue-300 p-2 hover:bg-green-700 hover:text-white rounded-lg border-2 border-green-500">Back</a>
 </div>
 </form>

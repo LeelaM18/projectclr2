@@ -2,8 +2,7 @@
 @section('title','codeclr create page')
 @section('content')
 <h1 class="text-red-300 text-bold "> Create page</h1>
-
-<form action="{{route('post.store')}}" method="post">
+<form action="{{route('post.store')}}" method="post" enctype="multipart/form-data" onclick="setupFormPost()">
     <div class="grid  grid-cols-3 bg-red-300 p-3">
      <label class="col-span-1">Title</label>
      <input type="text" name="title" class="col-span-2 border-2 border-green-300 w-100">
@@ -11,6 +10,10 @@
      <div class="grid  grid-cols-3 bg-red-300 p-3">
      <label class="col-span-1">slug</label>
      <input type="text"  name="slug" class="col-span-2 border-2 border-green-300 w-100">
+     </div>
+     <div class="grid  grid-cols-3 bg-red-300 p-3">
+     <label class="col-span-1">Image</label>
+     <input type="file"  name="image" class="col-span-2 border-2 border-green-300 w-100">
      </div>
      <div class="grid  grid-cols-3 bg-red-300 p-3">
      <label class="col-span-1">access</label>
@@ -29,10 +32,10 @@
     </div>
      <div class="grid  grid-cols-3 bg-red-300 p-3">
      <label class="col-span-1">Content</label>
-     <textarea name="content" class="col-span-2" rows="8"></textarea>
+     <textarea style="height: 400px;" class="col-span-2" name="content" ></textarea>
      @csrf
 </div>
 <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
 <div class="pt-4"> <button type="submit" class="bg-blue-300 p-2 hover:bg-green-700 hover:text-white rounded-lg">Create post</button></div>
-</form>
+</form>  
 @endsection
